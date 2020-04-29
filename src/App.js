@@ -18,7 +18,7 @@ function App() {
   const [shape, setShape] = useState('mining')
   const [product, setProduct] = useState("energy");
   const [history, setHistory] = useState([]);
-  const [results, setResults] = useState([]);
+  const [result, setResult] = useState({});
 
   const changeStartDateHandler = (date) => {
     setStartDate(date);
@@ -37,7 +37,7 @@ function App() {
   }
 
   const buttonClickHandler = () => {
-    const targetUrl = new URL('http://localhost:8080/api/wepower/calculateprice');
+    const targetUrl = new URL('http://localhost:8081/api/wepower/calculateprice');
     targetUrl.searchParams.append("start", startDate.getTime());
     targetUrl.searchParams.append("end", endDate.getTime());
     targetUrl.searchParams.append("customer", shape);
@@ -61,7 +61,12 @@ function App() {
 
         response.json().then(function (data) {
           if (!data.error) {
-            window.alert(JSON.stringify(data));
+            let newResult = {
+                energy: data.energyPrice,
+                lgc: data.lgcPrice,
+                total: data.totalPrice
+              };
+            setResult(newResult);
           } else {
             window.alert(data.message);
           }
@@ -160,6 +165,22 @@ function App() {
         >
           Query Prices
         </button>
+      </div>
+      <div>
+      {
+        result.total ?
+        (
+          <table>
+            <tbody>
+              <tr>
+                <td>{'Energy Price: ' + result.energy}</td>
+                <td>{'LGC Price: ' + result.lgc}</td>
+                <td>{'Total Price: ' + result.total}</td>
+              </tr>
+            </tbody>
+          </table>
+        ) : null
+      }
       </div>
       <div>
         <History history={history} />
