@@ -17,8 +17,8 @@ Make sure you have Docker installed and it is using Linux containers
 "docker build -t wepower-react-app:latest ."
 It will build the project and will install an image in Docker
 
-2. Run the following command in Command Console (Windows):
-"docker run -it --rm -v %cd%:/app -v /app/node_modules -p 3000:3000 -e CHOKIDAR_USEPOLLING=true wepower-react-app:latest" . 
+2. Run the following command in PowerShell:
+"docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 -e CHOKIDAR_USEPOLLING=true wepower-react-app:latest" . 
 It will start the image and you can open it in browser: http://localhost:3000
 
 
